@@ -69,6 +69,9 @@ class Retro extends React.Component {
           <Card
             style={{ maxWidth: "600px", margin: "20px auto" }}
             title="Daily Standup"
+            actions={[
+              <Icon type="arrow-left" onClick={() => this.props.history.push('/')} />
+            ]}
           >
             <p>
               Standup is an important part of everyday life as a developer.
