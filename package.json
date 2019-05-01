@@ -6,6 +6,8 @@
     "antd": "^3.16.6",
     "axios": "^0.18.0",
     "firebase": "^5.11.0",
+    "logrocket": "^0.6.21",
+    "logrocket-react": "^3.0.0",
     "react": "^16.8.6",
     "react-cookies": "^0.1.0",
     "react-dom": "^16.8.6",

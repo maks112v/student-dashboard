@@ -2374,11 +2374,6 @@ axobject-query@^2.0.2:
   dependencies:
     ast-types-flow "0.0.7"
 
-axois@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/axois/-/axois-1.0.0.tgz#f02b16c2e9606cc8ca16d14fd4b565bbcbd1df6d"
-  integrity sha512-EpgknN8bme3k3oxrM8sDV0AQ8bN6brE7ZcnhA6ZJftI9rEyjEAIn/G1qW1+yFrgRnzJxh6MPxshiS8fmQoI/oA==
-
 babel-code-frame@^6.22.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-code-frame/-/babel-code-frame-6.26.0.tgz#63fd43f7dc1e3bb7ce35947db8fe369a3f58c74b"
@@ -6889,6 +6884,16 @@ loglevel@^1.4.1:
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.1.tgz#e0fc95133b6ef276cdc8887cdaf24aa6f156f8fa"
   integrity sha1-4PyVEztu8nbNyIh82vJKpvFW+Po=
 
+logrocket-react@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/logrocket-react/-/logrocket-react-3.0.0.tgz#b0e1bfa4de25ae89c5da890fbb1c18276a1ac82f"
+  integrity sha512-vjx2MkFfvKDVilGuHBUuBPyr2en3tvd7bd9rozwEeYELk/DNL5z7Aqoqaz7DLlIhJndOG7/wIv873OdupySiRQ==
+
+logrocket@^0.6.21:
+  version "0.6.21"
+  resolved "https://registry.yarnpkg.com/logrocket/-/logrocket-0.6.21.tgz#f19749a4bc2ea51821a0f5acb08e811ac3d3f314"
+  integrity sha512-fyCA8PfNQqeuQyedqLQLiw47ibG8476a7C/amuusHKmqPdGo5GQmFD4Ba9vKRFbbakz+MmUdBGbYrQgq9K4e+g==
+
 long@~3:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/long/-/long-3.2.0.tgz#d821b7138ca1cb581c172990ef14db200b5c474b"
@@ -8752,7 +8757,7 @@ prompts@^2.0.1:
     kleur "^3.0.2"
     sisteransi "^1.0.0"
 
-prop-types@15.x, prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@15.x, prop-types@^15.5.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0, prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -8873,7 +8878,7 @@ querystringify@^2.0.0:
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.1.0.tgz#7ded8dfbf7879dcc60d0a644ac6754b283ad17ef"
   integrity sha512-sluvZZ1YiTLD5jsqZcDmFyV2EwToyXZBfpoVOmktMmW+VEnhgakFHnasVph65fOjGPTWN0Nw3+XQaSeMayr0kg==
 
-raf@3.4.1, raf@3.x, raf@^3.4.0, raf@^3.4.1, raf@~3.4.0:
+raf@3.4.1, raf@^3.4.0, raf@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.1.tgz#0742e99a4a6552f445d73e3ee0328af0ff1ede39"
   integrity sha512-Sq4CW4QhwOHE8ucn6J34MqtZCeWFP2aQSmrlroYgqAV1PjStIhJXxYuTgUIfkEk7zTLjmIjLmU5q+fbD1NnOJA==
@@ -9129,15 +9134,6 @@ rc-progress@~2.3.0:
     babel-runtime "6.x"
     prop-types "^15.5.8"
 
-rc-queue-anim@^1.6.12:
-  version "1.6.12"
-  resolved "https://registry.yarnpkg.com/rc-queue-anim/-/rc-queue-anim-1.6.12.tgz#ce5e2cf3ab9752ca318a930895db88df23a8623f"
-  integrity sha512-GScVzqTAnECz84bwURbBfS+l/7P93bH8SdveUiDP0PQBxiEbYFCwNOB9GpC1LD+0ZytXzKcwN+uo5r2Nad0vLA==
-  dependencies:
-    babel-runtime "6.x"
-    prop-types "^15.6.0"
-    rc-tween-one "^2.3.2"
-
 rc-rate@~2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/rc-rate/-/rc-rate-2.5.0.tgz#72d4984a03d0a7a0e6779c7a79efcea27626abf6"
@@ -9147,17 +9143,6 @@ rc-rate@~2.5.0:
     prop-types "^15.5.8"
     rc-util "^4.3.0"
     react-lifecycles-compat "^3.0.4"
-
-rc-scroll-anim@^2.5.7:
-  version "2.5.7"
-  resolved "https://registry.yarnpkg.com/rc-scroll-anim/-/rc-scroll-anim-2.5.7.tgz#539616636028e1f12e9f4dfa2af5812c67dab647"
-  integrity sha512-REL3NjdH15Wo4PnbcpoPc19Nx5kScwkn3wNA+ytYBF4S53PjaLF2S8eFANLxZOYIruLoHIp+5Flu09XAPRIP7A==
-  dependencies:
-    babel-runtime "6.x"
-    prop-types "^15.6.0"
-    raf "3.x"
-    rc-tween-one "^2.4.0"
-    tween-functions "1.x"
 
 rc-select@~9.1.0:
   version "9.1.1"
@@ -9314,17 +9299,6 @@ rc-trigger@^3.0.0-rc.2:
     rc-align "^2.4.1"
     rc-animate "^3.0.0-rc.1"
     rc-util "^4.4.0"
-
-rc-tween-one@^2.3.2, rc-tween-one@^2.4.0, rc-tween-one@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/rc-tween-one/-/rc-tween-one-2.4.1.tgz#04354c59b0cf2cf5fab583b27878b9d6af23dcc3"
-  integrity sha512-sIHQtPIxN9sSc+rFG/niqQEZKsqo/kSNvLa3WM4imDTJ7HXOFU5MDeY8l0f+TwotbyyzTlpUCWo1mTQsj7b8XA==
-  dependencies:
-    babel-runtime "6.x"
-    prop-types "^15.6.1"
-    raf "~3.4.0"
-    style-utils "~0.2.0"
-    tween-functions "~1.2.0"
 
 rc-upload@~2.6.0:
   version "2.6.4"
@@ -10611,11 +10585,6 @@ style-loader@0.23.1:
     loader-utils "^1.1.0"
     schema-utils "^1.0.0"
 
-style-utils@~0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/style-utils/-/style-utils-0.2.0.tgz#3d8614931b8ff6e1eea0545f1dbfaf271bb1aa7e"
-  integrity sha512-XZkJdvmMK9DHaul0SW3FAOkDiTW9U+EoEtVctJBHEPVAsXbZC7RyIMuMgOB6a4DKdTO8JV3jvkkqCK+b6c1Cew==
-
 stylehacks@^4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/stylehacks/-/stylehacks-4.0.3.tgz#6718fcaf4d1e07d8a1318690881e8d96726a71d5"
@@ -10910,11 +10879,6 @@ tunnel-agent@^0.6.0:
   integrity sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0=
   dependencies:
     safe-buffer "^5.0.1"
-
-tween-functions@1.x, tween-functions@~1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/tween-functions/-/tween-functions-1.2.0.tgz#1ae3a50e7c60bb3def774eac707acbca73bbc3ff"
-  integrity sha1-GuOlDnxguz3vd06scHrLynO7w/8=
 
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"

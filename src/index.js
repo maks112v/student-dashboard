@@ -4,6 +4,11 @@ import "antd/dist/antd.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
+import LogRocket from 'logrocket';
+import setupLogRocketReact from 'logrocket-react';
+
+
+setupLogRocketReact(LogRocket);
 
 ReactDOM.render(
   <Router>

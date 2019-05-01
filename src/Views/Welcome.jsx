@@ -93,7 +93,6 @@ class Welcome extends React.Component {
                     });
                   }}
                   value={this.state.code}
-                  required
                   style={{ marginBottom: "10px", maxWidth: "400px" }}
                 />
               </Form.Item>
