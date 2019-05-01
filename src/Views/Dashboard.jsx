@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Row, Col, Button, Card, Icon, Skeleton, Avatar } from "antd";
+import { Layout, Row, Col, Card, Icon, Skeleton, Avatar } from "antd";
 import cookie from "react-cookies";
 
 import LambdaLogo from "../assets/logo.png";
@@ -33,7 +33,6 @@ class Dashboard extends React.Component {
   };
 
   render() {
-    console.log(this.props)
     return (
       <Layout>
         <Layout.Content style={{ minHeight: "100vh", margin: "20px 10px" }}>
@@ -95,7 +94,7 @@ class Dashboard extends React.Component {
               >
                 <Card.Meta
                   title="Sprint Retro"
-                  description="Fill out after sprint"
+                  description="Coming Soon..."
                 />
               </Card>
             </Col>

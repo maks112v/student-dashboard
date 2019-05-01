@@ -6,39 +6,67 @@ import {
   Button,
   Card,
   Icon,
-  Skeleton,
-  Input,
-  Rate,
-  AutoComplete
+  Modal
 } from "antd";
-import MakeInput from '../Components/MakeInput'
+import MakeInput from "../Components/MakeInput";
 
 class Retro extends React.Component {
   state = {
     isSubmitting: false,
-    studyToday: '',
-    projectSubmittion: '',
+    studyToday: "",
+    projectSubmittion: "",
     rateProject: 2,
     rateDay: 2,
-    finishToday: '',
-    finishTommorrow: '',
-    blockers: '',
-    other: ''
+    finishToday: "",
+    finishTommorrow: "",
+    blockers: "",
+    other: ""
   };
 
   onChange = e => {
     this.setState({
-      [e.target.name]: e.target.value,
-    })
+      [e.target.name]: e.target.value
+    });
   };
 
   submit = () => {
     this.setState({
-      isSubmitting: true,
-    })
-    let url = `https://airtable.com/shr8ZYuNjevMLRsxI?prefill_Student=${this.props.firstName.trim()}+${this.props.lastName.trim()}&prefill_Module=${encodeURI(this.state.studyToday)}&prefill_Project+Link=${encodeURI(this.state.projectSubmittion)}&prefill_PR+Rating=${this.state.rateProject}&prefill_Self+Rating=${this.state.rateDay}&prefill_Finished=${encodeURI(this.state.finishToday)}&prefill_Need+to+Finish=${encodeURI(this.state.finishTommorrow)}&prefill_Blockers=${encodeURI(this.state.blockers)}&prefill_Other=${encodeURI(this.state.other)}`
-    window.open(url)
-  }
+      isSubmitting: true
+    });
+    this.openWindow();
+    const thisFunc = this;
+    Modal.confirm({
+      title: "Did the airtable",
+      content: "",
+      okText: "Finished",
+      cancelText: "Try Again",
+      onOk() {
+        thisFunc.props.history.push('/')
+      },
+      onCancel() {
+        thisFunc.setState({
+          isSubmitting: false
+        })
+      }
+    });
+  };
+
+  openWindow = () => {
+    let url = `https://airtable.com/shr8ZYuNjevMLRsxI?prefill_Student=${this.props.firstName.trim()}+${this.props.lastName.trim()}&prefill_Module=${encodeURI(
+      this.state.studyToday
+    )}&prefill_Project+Link=${encodeURI(
+      this.state.projectSubmittion
+    )}&prefill_PR+Rating=${this.state.rateProject}&prefill_Self+Rating=${
+      this.state.rateDay
+    }&prefill_Finished=${encodeURI(
+      this.state.finishToday
+    )}&prefill_Need+to+Finish=${encodeURI(
+      this.state.finishTommorrow
+    )}&prefill_Blockers=${encodeURI(
+      this.state.blockers
+    )}&prefill_Other=${encodeURI(this.state.other)}`;
+    window.open(url);
+  };
 
   render() {
     return (
@@ -84,10 +112,12 @@ class Retro extends React.Component {
               type="suggest"
               required
               title="What did you study today?"
-              name='studyToday'
-              onChange={select => this.setState({
-                studyToday: select
-              })}
+              name="studyToday"
+              onChange={select =>
+                this.setState({
+                  studyToday: select
+                })
+              }
               value={this.state.studyToday}
               desc="Use search to quickly find the module. Choose the one that matches the page you used in Training Kit"
               data={this.props.sections}
@@ -102,7 +132,7 @@ class Retro extends React.Component {
             <MakeInput
               type="input"
               required
-              name='projectSubmittion'
+              name="projectSubmittion"
               onChange={this.onChange}
               value={this.state.projectSubmittion}
               title="What's the URL for your submission of today's project?"
@@ -113,9 +143,11 @@ class Retro extends React.Component {
               required
               title="On a scale of 1-3, how would you rate your project submission?"
               value={this.state.rateProject}
-              onChange={value => {this.setState({
-                rateProject: value
-              })}}
+              onChange={value => {
+                this.setState({
+                  rateProject: value
+                });
+              }}
               desc="1 - Did not meet expectations, obvious bugs, missing functionality, took longer than expected, etc
               2 - Met expectations defined in the project in the given time
               3 - Went above and beyond, completed at least one stretch goal, or otherwise added upon the expectations of the project"
@@ -124,9 +156,11 @@ class Retro extends React.Component {
               type="rate"
               required
               value={this.state.rateDay}
-              onChange={value => {this.setState({
-                rateDay: value
-              })}}
+              onChange={value => {
+                this.setState({
+                  rateDay: value
+                });
+              }}
               title="On a scale of 1-3, how would you rate your overall performance and understanding today?"
               desc="Consider your attendance, code challenge, project, use of the help channel, participation in live instruction and team meeting."
             />
@@ -163,8 +197,16 @@ class Retro extends React.Component {
               name="other"
               onChange={this.onChange}
             />
-            <Col xs={24} style={{ margin: "20px 0", textAlign: 'center' }}>
-              <Button type="primary" onClick={this.submit} size="large" icon="link" loading={this.state.isSubmitting}>Submit</Button>
+            <Col xs={24} style={{ margin: "20px 0", textAlign: "center" }}>
+              <Button
+                type="primary"
+                onClick={this.submit}
+                size="large"
+                icon="link"
+                loading={this.state.isSubmitting}
+              >
+                Submit
+              </Button>
             </Col>
           </Row>
         </Layout.Content>

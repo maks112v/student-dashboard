@@ -68,7 +68,7 @@ const MakeInput = ({
           hasFeedback
         >
           <Input
-            style={{ width: "80%" }}
+            style={{ width: "100%" }}
             value={value}
             onChange={onChange}
             name={name}
@@ -97,7 +97,7 @@ const MakeInput = ({
           hasFeedback
         >
           <Input.TextArea
-            style={{ width: "80%" }}
+            style={{ width: "100%" }}
             value={value}
             autosize={{ minRows: 2, maxRows: 6 }}
             onChange={onChange}
@@ -129,7 +129,7 @@ const MakeInput = ({
           <AutoComplete
             value={value}
             dataSource={data}
-            style={{ width: "80%" }}
+            style={{ width: "100%" }}
             onChange={onChange}
             onBlur={() => validate("text")}
             filterOption={(inputValue, option) =>
@@ -149,7 +149,7 @@ const MakeInput = ({
           {required && <span style={{ color: "#f5222d" }}>*</span>} {title}
         </h3>
         <p>{desc}</p>
-        <Input disabled value={value} style={{ width: "80%" }} />
+        <Input disabled value={value} style={{ width: "100%" }} />
       </Col>
     );
   }
