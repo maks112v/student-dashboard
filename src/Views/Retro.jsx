@@ -11,57 +11,35 @@ import {
   Rate,
   AutoComplete
 } from "antd";
-
-const MakeInput = ({ type, title, desc, required, isLoading, value, data }) => {
-  if (type === "rate" && !isLoading) {
-    return (
-      <Col xs={24} style={{ margin: "20px 0" }}>
-        <h3>
-          {required && <span style={{ color: "#f5222d" }}>*</span>} {title}
-        </h3>
-        <p>{desc}</p>
-        <Rate count={3} allowClear={false} />
-      </Col>
-    );
-  }
-  if (type === "suggest" && !isLoading) {
-    return (
-      <Col xs={24} style={{ margin: "20px 0" }}>
-        <h3>
-          {required && <span style={{ color: "#f5222d" }}>*</span>} {title}
-        </h3>
-        <p>{desc}</p>
-        <AutoComplete
-          dataSource={data}
-          style={{ width: "80%" }}
-          filterOption={(inputValue, option) =>
-            option.props.children
-              .toUpperCase()
-              .indexOf(inputValue.toUpperCase()) !== -1
-          }
-        />
-      </Col>
-    );
-  }
-  if (type === "disabled" && !isLoading) {
-    return (
-      <Col xs={24} style={{ margin: "20px 0" }}>
-        <h3>
-          {required && <span style={{ color: "#f5222d" }}>*</span>} {title}
-        </h3>
-        <p>{desc}</p>
-        <Input disabled value={value} style={{ width: "80%" }} />
-      </Col>
-    );
-  }
-  return (
-    <Col xs={24}>
-      <Skeleton active />
-    </Col>
-  );
-};
+import MakeInput from '../Components/MakeInput'
 
 class Retro extends React.Component {
+  state = {
+    isSubmitting: false,
+    studyToday: '',
+    projectSubmittion: '',
+    rateProject: 2,
+    rateDay: 2,
+    finishToday: '',
+    finishTommorrow: '',
+    blockers: '',
+    other: ''
+  };
+
+  onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    })
+  };
+
+  submit = () => {
+    this.setState({
+      isSubmitting: true,
+    })
+    let url = `https://airtable.com/shr8ZYuNjevMLRsxI?prefill_Student=${this.props.firstName.trim()}+${this.props.lastName.trim()}&prefill_Module=${encodeURI(this.state.studyToday)}&prefill_Project+Link=${encodeURI(this.state.projectSubmittion)}`
+    window.open(url)
+  }
+
   render() {
     return (
       <Layout>
@@ -70,7 +48,10 @@ class Retro extends React.Component {
             style={{ maxWidth: "600px", margin: "20px auto" }}
             title="Daily Standup"
             actions={[
-              <Icon type="arrow-left" onClick={() => this.props.history.push('/')} />
+              <Icon
+                type="arrow-left"
+                onClick={() => this.props.history.push("/")}
+              />
             ]}
           >
             <p>
@@ -103,12 +84,31 @@ class Retro extends React.Component {
               type="suggest"
               required
               title="What did you study today?"
+              name='studyToday'
+              onChange={select => this.setState({
+                studyToday: select
+              })}
+              value={this.state.studyToday}
               desc="Use search to quickly find the module. Choose the one that matches the page you used in Training Kit"
               data={this.props.sections}
             />
             <MakeInput
+              type="input"
+              required
+              name='projectSubmittion'
+              onChange={this.onChange}
+              value={this.state.projectSubmittion}
+              title="What's the URL for your submission of today's project?"
+              desc="To submit GitHub Pull Requests's, please include your specific pull request URL"
+            />
+            <MakeInput
               type="rate"
+              required
               title="On a scale of 1-3, how would you rate your project submission?"
+              value={this.state.rateProject}
+              onChange={value => {this.setState({
+                rateProject: value
+              })}}
               desc="1 - Did not meet expectations, obvious bugs, missing functionality, took longer than expected, etc
               2 - Met expectations defined in the project in the given time
               3 - Went above and beyond, completed at least one stretch goal, or otherwise added upon the expectations of the project"
@@ -116,9 +116,49 @@ class Retro extends React.Component {
             <MakeInput
               type="rate"
               required
+              value={this.state.rateDay}
+              onChange={value => {this.setState({
+                rateDay: value
+              })}}
               title="On a scale of 1-3, how would you rate your overall performance and understanding today?"
               desc="Consider your attendance, code challenge, project, use of the help channel, participation in live instruction and team meeting."
             />
+            <MakeInput
+              type="textarea"
+              title="What did you finish today?"
+              value={this.state.finishToday}
+              name="finishToday"
+              onChange={this.onChange}
+              required
+            />
+            <MakeInput
+              type="textarea"
+              title="What do you need to finish before tomorrow?"
+              value={this.state.finishTommorrow}
+              name="finishTommorrow"
+              onChange={this.onChange}
+              required
+            />
+            <MakeInput
+              type="textarea"
+              title="Anything blocking you, or breakthroughs you'd like to share?"
+              desc="Blockers: what did you try, and what was the error?
+              Breakthroughs: what was your 'a-ha' moment?"
+              value={this.state.blockers}
+              name="blockers"
+              onChange={this.onChange}
+              required
+            />
+            <MakeInput
+              type="textarea"
+              title="Anything else we should know about?"
+              value={this.state.other}
+              name="other"
+              onChange={this.onChange}
+            />
+            <Col xs={24} style={{ margin: "20px 0", textAlign: 'center' }}>
+              <Button type="primary" onClick={this.submit} size="large" icon="link" loading={this.state.isSubmitting}>Submit</Button>
+            </Col>
           </Row>
         </Layout.Content>
       </Layout>

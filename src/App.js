@@ -3,17 +3,13 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import cookie from "react-cookies";
 
 import Welcome from "./Views/Welcome";
-import AuthRoutes from './AuthRoutes'
+import AuthRoutes from "./AuthRoutes";
 
 const Protected = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      cookie.load('code') ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/verify" />
-      )
+      cookie.load("code") ? <Component {...props} /> : <Redirect to="/verify" />
     }
   />
 );
