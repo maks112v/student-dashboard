@@ -36,7 +36,7 @@ class Retro extends React.Component {
     this.setState({
       isSubmitting: true,
     })
-    let url = `https://airtable.com/shr8ZYuNjevMLRsxI?prefill_Student=${this.props.firstName.trim()}+${this.props.lastName.trim()}&prefill_Module=${encodeURI(this.state.studyToday)}&prefill_Project+Link=${encodeURI(this.state.projectSubmittion)}`
+    let url = `https://airtable.com/shr8ZYuNjevMLRsxI?prefill_Student=${this.props.firstName.trim()}+${this.props.lastName.trim()}&prefill_Module=${encodeURI(this.state.studyToday)}&prefill_Project+Link=${encodeURI(this.state.projectSubmittion)}&prefill_PR+Rating=${this.state.rateProject}&prefill_Self+Rating=${this.state.rateDay}&prefill_Finished=${encodeURI(this.state.finishToday)}&prefill_Need+to+Finish=${encodeURI(this.state.finishTommorrow)}&prefill_Blockers=${encodeURI(this.state.blockers)}&prefill_Other=${encodeURI(this.state.other)}`
     window.open(url)
   }
 
@@ -91,6 +91,13 @@ class Retro extends React.Component {
               value={this.state.studyToday}
               desc="Use search to quickly find the module. Choose the one that matches the page you used in Training Kit"
               data={this.props.sections}
+            />
+            <MakeInput
+              type="disabled"
+              required
+              value="¯\_(ツ)_/¯"
+              title="How are you feeling today?"
+              desc="Please fill this out on Airtable we don't want to deal with unicode and emojis"
             />
             <MakeInput
               type="input"

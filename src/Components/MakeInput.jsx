@@ -12,17 +12,25 @@ const MakeInput = ({
   onChange,
   name
 }) => {
-  let [valStatus, setStatus] = useState(false)
-  const validate = ({type, input}) => {
-    if(type === "url"){
-  
-    }
-    else {
-      if(input){
-        setStatus(true)
+  let [valStatus, setStatus] = useState("");
+  const validate = type => {
+    if (required) {
+      if (type === "url") {
+        var pattern = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+        if (pattern.test(value)) {
+          setStatus("success");
+        } else {
+          setStatus("error");
+        }
+      } else {
+        if (value !== "") {
+          setStatus("success");
+        } else {
+          setStatus("error");
+        }
       }
     }
-  }
+  };
 
   if (type === "rate" && !isLoading) {
     return (
@@ -48,12 +56,23 @@ const MakeInput = ({
           {required && <span style={{ color: "#f5222d" }}>*</span>} {title}
         </h3>
         <p>{desc}</p>
-        <Form.Item validateStatus={valStatus ? 'success': ''} hasFeedback>
+        <Form.Item
+          validateStatus={
+            valStatus === "error"
+              ? "error"
+              : valStatus === "success"
+              ? "success"
+              : ""
+          }
+          help={valStatus === "error" ? "Invalid Link" : ""}
+          hasFeedback
+        >
           <Input
             style={{ width: "80%" }}
             value={value}
             onChange={onChange}
             name={name}
+            onBlur={() => validate("url")}
           />
         </Form.Item>
       </Col>
@@ -66,14 +85,26 @@ const MakeInput = ({
           {required && <span style={{ color: "#f5222d" }}>*</span>} {title}
         </h3>
         <p>{desc}</p>
-        <Input.TextArea
-          style={{ width: "80%" }}
-          value={value}
-          autosize={{ minRows: 2, maxRows: 6 }}
-          onChange={onChange}
-          name={name}
-          onBlur={() => validate('text', value)}
-        />
+        <Form.Item
+          validateStatus={
+            valStatus === "error"
+              ? "error"
+              : valStatus === "success"
+              ? "success"
+              : ""
+          }
+          help={valStatus === "error" ? "Add more text" : ""}
+          hasFeedback
+        >
+          <Input.TextArea
+            style={{ width: "80%" }}
+            value={value}
+            autosize={{ minRows: 2, maxRows: 6 }}
+            onChange={onChange}
+            onBlur={() => validate("text")}
+            name={name}
+          />
+        </Form.Item>
       </Col>
     );
   }
@@ -84,17 +115,30 @@ const MakeInput = ({
           {required && <span style={{ color: "#f5222d" }}>*</span>} {title}
         </h3>
         <p>{desc}</p>
-        <AutoComplete
-          value={value}
-          dataSource={data}
-          style={{ width: "80%" }}
-          onChange={onChange}
-          filterOption={(inputValue, option) =>
-            option.props.children
-              .toUpperCase()
-              .indexOf(inputValue.toUpperCase()) !== -1
+        <Form.Item
+          validateStatus={
+            valStatus === "error"
+              ? "error"
+              : valStatus === "success"
+              ? "success"
+              : ""
           }
-        />
+          help={valStatus === "error" ? "Select Something" : ""}
+          hasFeedback
+        >
+          <AutoComplete
+            value={value}
+            dataSource={data}
+            style={{ width: "80%" }}
+            onChange={onChange}
+            onBlur={() => validate("text")}
+            filterOption={(inputValue, option) =>
+              option.props.children
+                .toUpperCase()
+                .indexOf(inputValue.toUpperCase()) !== -1
+            }
+          />
+        </Form.Item>
       </Col>
     );
   }
