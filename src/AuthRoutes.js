@@ -1,10 +1,10 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import { store } from "./firebase";
-
+import { connect } from "react-redux";
 import Dashboard from "./Views/Dashboard";
 import cookie from "react-cookies";
-
+import { getUserById } from "./actions";
 import Retro from "./Views/Retro";
 
 class AuthRoutes extends React.Component{
@@ -47,60 +47,8 @@ class AuthRoutes extends React.Component{
     }
     
     componentDidMount(){
-        store.collection( "students" ).
-            doc( this.state.code ).
-            get().
-            then( res => {
-                if( res.exists ){
-                    const path = res.data().ref.path;
-                    store.doc( path ).get().then( res => {
-                        const { firstName, lastName, github, lessons } = res.data();
-                        debugger;
-                        this.setState( {
-                            isLoading: false,
-                            firstName,
-                            lastName,
-                            github,
-                            lessons
-                        } );
-                        this.getAutofill();
-                        
-                    } ).catch( err => console.log( err ) );
-                }else{
-                    cookie.remove( "code" );
-                    this.props.history.push( "/verify" );
-                }
-            } ).
-            catch( err => console.log( err ) );
+        debugger;
     }
-    
-    getAutofill = () => {
-        store.collection( "autoFill" ).
-            doc( "web" ).
-            collection( "sections" ).
-            orderBy( "order", "asc" ).
-            get().
-            then( sections => {
-                let sectionsArray = [];
-                let sprintArray = [];
-                sections.forEach( section => {
-                    const { name, isProject } = section.data();
-                    if( isProject ){
-                        sectionsArray.push( section.data() );
-                    }else{
-                        sprintArray.push( section.data() );
-                    }
-                } );
-                this.setState( {
-                    autoFill: {
-                        sections: sectionsArray, sprints: sprintArray
-                    }
-                } );
-            } ).
-            catch( err => {
-                console.log( err );
-            } );
-    };
     
     render(){
         const sendData = {
@@ -122,4 +70,6 @@ class AuthRoutes extends React.Component{
     }
 }
 
-export default AuthRoutes;
+const mstp = state => ( {} );
+
+export default connect( mstp, { getUserById } )( AuthRoutes );

@@ -1,0 +1,15 @@
+.mg {
+  &-left {
+    &-sm {
+      margin-left: .5rem;
+    }
+
+    &-md {
+      margin-left: 1rem;
+    }
+
+    &-lg {
+      margin-left: 2rem;
+    }
+  }
+}
