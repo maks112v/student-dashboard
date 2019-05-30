@@ -1,5 +1,5 @@
 import { store } from "../firebase.js";
-import cookie from "react-cookies";
+import { cookieSave } from "./cookie";
 import { action } from "./action";
 
 export const FETCH_USER_BY_ID_INIT = "FETCH_USER_BY_ID_INIT";
@@ -7,6 +7,7 @@ export const FETCH_USER_BY_ID_SUCCESS = "FETCH_USER_BY_ID_SUCCESS";
 export const FETCH_USER_BY_ID_FAILED = "FETCH_USER_BY_ID_FAILED";
 
 export const getUserById = id => dispatch => {
+    
     dispatch( action( FETCH_USER_BY_ID_INIT ) );
     store.collection( "students" )
         .doc( id )
@@ -14,6 +15,7 @@ export const getUserById = id => dispatch => {
         .then( res => {
             if( res.exists ){
                 const data = res.data();
+                cookieSave( "code", data.id );
                 dispatch( action( FETCH_USER_BY_ID_SUCCESS, data ) );
             }else{
                 dispatch( action( FETCH_USER_BY_ID_FAILED,

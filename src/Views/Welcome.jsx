@@ -1,54 +1,30 @@
 import React from "react";
 import { Layout, Row, Col, Button, Input, Form } from "antd";
-import cookie from "react-cookies";
-
-import { store } from "../firebase";
+import { connect } from "react-redux";
+import { getUserById } from "../actions";
 
 import HomeImage from "../assets/home.svg";
 
 class Welcome extends React.Component{
     state = {
-        code: "", isLoading: false, error: {
+        code: "", error: {
             status: "", msg: ""
         }
     };
     
     componentDidMount(){
-        if( cookie.load( "code" ) ){
-            this.props.history.push( "/" );
-        }
+    
+    }
+    
+    componentWillUpdate( nextProps, nextState, nextContext ){
+    
     }
     
     submit = e => {
+        
         e.preventDefault();
-        if( this.state.code !== "" ){
-            this.setState( {
-                isLoading: true
-            } );
-            store
-                .collection( "students" )
-                .doc( this.state.code )
-                .get()
-                .then( res => {
-                    if( res.exists ){
-                        cookie.save( "code", this.state.code );
-                        this.props.history.push( `/` );
-                    }else{
-                        this.setState( {
-                            isLoading: false, code: "", error: {
-                                status: "error", msg: "Wrong Code"
-                            }
-                        } );
-                    }
-                } )
-                .catch( err => console.log( err ) );
-        }else{
-            this.setState( {
-                error: {
-                    status: "warning", msg: "No Code Entered"
-                }
-            } );
-        }
+        this.props.getUserById( this.state.code );
+        
     };
     
     render(){
@@ -127,4 +103,8 @@ class Welcome extends React.Component{
     }
 }
 
-export default Welcome;
+const mstp = state => ( {
+    user: state.users.user,
+} );
+
+export default connect( mstp, { getUserById } )( Welcome );

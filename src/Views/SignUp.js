@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { Col, Layout, Row, Form, Select } from "antd";
 
 import InputComponent from "../Components/form/InputComponent";
@@ -83,7 +82,5 @@ class SignUp extends Component{
         </Layout> );
     }
 }
-
-SignUp.propTypes = {};
 
 export default SignUp;

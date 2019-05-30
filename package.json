@@ -7,10 +7,9 @@
     "axios": "^0.18.0",
     "connected-react-router": "^6.4.0",
     "firebase": "^5.11.0",
-    "history": "latest",
+    "history": "^4.9.0",
     "logrocket": "^0.6.21",
     "logrocket-react": "^3.0.0",
-    "node-sass": "^4.12.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-cookies": "^0.1.0",
@@ -41,5 +40,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "node-sass": "^4.12.0"
   }
 }

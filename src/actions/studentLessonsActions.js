@@ -5,7 +5,7 @@ export const FETCH_STUDENT_LESSONS_INIT = "FETCH_STUDENT_LESSONS_INIT";
 export const FETCH_STUDENT_LESSONS_SUCCESS = "FETCH_STUDENT_LESSONS_SUCCESS";
 export const FETCH_STUDENT_LESSONS_FAILED = "FETCH_STUDENT_LESSONS_FAILED";
 
-export const fetchSTudentLessons = student => dispatch => {
+export const fetchStudentLessons = student => dispatch => {
     dispatch( action( FETCH_STUDENT_LESSONS_INIT ) );
     store.collection( "students" )
         .doc( student.id ).collection( "lessons" )

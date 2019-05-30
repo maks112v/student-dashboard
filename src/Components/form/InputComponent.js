@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Input, Form } from "antd";
 import PropTypes from "prop-types";
 

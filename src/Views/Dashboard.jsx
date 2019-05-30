@@ -1,14 +1,14 @@
 import React from "react";
 import { Layout, Row, Col, Card, Icon, Skeleton, Avatar } from "antd";
-import cookie from "react-cookies";
-
+import { cookieDelete } from "../actions/cookie";
+import { connect } from "react-redux";
 import LambdaLogo from "../assets/logo.png";
-
+import { fetchStudentLessons } from "../actions/index";
 import DailyImage from "../assets/daily.jpg";
 import SprintImage from "../assets/sprint.jpg";
 
 import axios from "axios";
-import Lessons from "../Components/Lessons";
+import Sprint from "../Components/sprint/Sprint";
 
 class Dashboard extends React.Component{
     state = {
@@ -17,10 +17,11 @@ class Dashboard extends React.Component{
     
     componentDidMount(){
         this.getJoke();
+        this.props.fetchSTudentLessons( this.props.user );
     }
     
     logOut = () => {
-        cookie.remove( "code" );
+        cookieDelete( "code" );
         this.props.history.push( "/verify" );
     };
     
@@ -35,6 +36,7 @@ class Dashboard extends React.Component{
     };
     
     render(){
+        
         return ( <Layout>
             <Layout.Content
                 style={ { minHeight: "100vh", margin: "20px 10px" } }>
@@ -43,7 +45,10 @@ class Dashboard extends React.Component{
                     actions={ [
                         <Icon type="reload" onClick={ this.getJoke }/>, <Icon
                             type="github"
-                            onClick={ () => window.open( `https://github.com/${ this.props.github }` ) }
+                            onClick={ () => {
+                                
+                                window.open( `https://github.com/${ this.props.user.github }` );
+                            } }
                         />, <Icon type="logout" onClick={ this.logOut }/>
                     ] }
                 >
@@ -51,7 +56,7 @@ class Dashboard extends React.Component{
                               active>
                         <Card.Meta
                             avatar={ <Avatar src={ LambdaLogo }/> }
-                            title={ `Welcome ${ this.props.firstName } ${ this.props.lastName }` }
+                            title={ `Welcome ${ this.props.user.firstName } ${ this.props.user.lastName }` }
                             description={ `Here is a joke: ${ this.state.joke }` }
                         />
                     </Skeleton>
@@ -97,10 +102,15 @@ class Dashboard extends React.Component{
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={ { size: 24, offset: 0 } }
-                         md={ { size: 12, offset: 6 } }>
-                        <Lessons lessons={ this.props.lessons }
-                                 onChange={ this.changeLessonCompleted }/>
+                    <Col xs={ { span: 24, offset: 0 } }
+                         md={ { span: 12, offset: 6 } }>
+                        { this.props.sprints &&
+                        Object.values( this.props.sprints )
+                            .sort( ( a, b ) => a.week - b.week )
+                            .map( sprint => {
+                                return <Sprint key={ sprint.id }
+                                               sprint={ sprint }/>;
+                            } ) }
                     </Col>
                 </Row>
             </Layout.Content>
@@ -108,4 +118,13 @@ class Dashboard extends React.Component{
     }
 }
 
-export default Dashboard;
+const mstp = state => ( {
+    isLoading: state.autoFill.getLessonsInit,
+    user: state.users.user,
+    sprints: state.autoFill.sprints,
+} );
+
+export default connect( mstp,
+    { fetchSTudentLessons: fetchStudentLessons }
+)(
+    Dashboard );

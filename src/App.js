@@ -1,36 +1,51 @@
 import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
-import cookie from "react-cookies";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { cookieGet } from "./actions/cookie";
 import { connect } from "react-redux";
 import Welcome from "./Views/Welcome";
-import AuthRoutes from "./AuthRoutes";
-import { getAutoFill } from "./actions";
+import { getAutoFill, getUserById } from "./actions";
 import "./App.scss";
 import SignUp from "./Views/SignUp";
+import requireAuth from "./AuthRoutes";
+import Dashboard from "./Views/Dashboard";
+import Retro from "./Views/Retro";
 
 const Protected = ( { component: Component, ...rest } ) => ( <Route
     { ...rest }
-    render={ props => cookie.load( "code" ) ? <Component { ...props } /> :
+    render={ props => cookieGet( "code" ) ? <Component { ...props } /> :
         <Redirect to="/verify"/> }
 /> );
 
 class App extends React.Component{
     
+    state = {
+        redirected: false,
+    };
+    
     componentDidMount(){
-        debugger;
-        if( cookie.load( "code" ) ){
-            this.props.history.push( "/dashboard" );
+        
+        if( cookieGet( "code" ) ){
+            this.props.getUserById( cookieGet( "code" ) );
         }
         this.props.getAutoFill();
         
     }
     
     componentWillUpdate( nextProps, nextState, nextContext ){
-        debugger;
+        
         if( nextProps.getTAsFailed || nextProps.getSprintsFailed ||
             nextProps.getLessonsFailed || nextProps.getInstructorsFailed ){
             console.log( "Something is wrong" );
             console.log( this.props.error );
+        }
+        
+        if( nextProps.isAuthenticated && !nextState.redirected ){
+            this.setState( { redirected: true } );
+            this.props.history.push( "/dashboard" );
+        }
+        
+        if( nextProps.fetchUserInit && nextState.redirected ){
+            this.setState( { redirected: false } );
         }
     }
     
@@ -42,8 +57,15 @@ class App extends React.Component{
             <Route path={ "/signup" }
                    render={ props => <SignUp { ...props } /> }
             />
-            <Protected path="/"
-                       component={ props => <AuthRoutes { ...props } /> }
+            <Route path="/"
+                   component={ requireAuth( Dashboard,
+                       this.props.isAuthenticated
+                   ) }
+            />
+            <Route path="/retro"
+                   component={ requireAuth( Retro,
+                       this.props.isAuthenticated
+                   ) }
             />
         </Switch> );
     }
@@ -67,6 +89,12 @@ const mstp = state => ( {
     getTAsSuccess: state.autoFill.getTAsSuccess,
     getTAsFailed: state.autoFill.getTAsFailed,
     error: state.autoFill.error,
+    fetchUserInit: state.users.fetchUserInit,
+    isAuthenticated: state.users.isAuthenticated,
+    
 } );
 
-export default connect( mstp, { getAutoFill } )( App );
+export default withRouter( connect( mstp,
+    { getAutoFill, getUserById }
+)(
+    App ) );

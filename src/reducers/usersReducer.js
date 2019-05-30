@@ -12,6 +12,7 @@ const initialState = {
     fetchStudentLessonsInit: false,
     fetchStudentLessonsSuccess: false,
     fetchStudentLessonsFailed: false,
+    isAuthenticated: false,
     user: {},
     studentLessons: {},
     error: "",
@@ -36,6 +37,7 @@ export const usersReducer = ( state = initialState, action ) => {
                 fetchUserSuccess: true,
                 fetchUserFailed: false,
                 user: action.payload,
+                isAuthenticated: true,
             };
         case FETCH_USER_BY_USERNAME_FAILED:
             return {
@@ -57,12 +59,14 @@ export const usersReducer = ( state = initialState, action ) => {
                 fetchUserFailed: false
             };
         case FETCH_USER_BY_ID_SUCCESS:
+            
             return {
                 ...state,
                 fetchUserInit: false,
                 fetchUserSuccess: true,
                 fetchUserFailed: false,
                 user: action.payload,
+                isAuthenticated: true,
             };
         case FETCH_USER_BY_ID_FAILED:
             return {
