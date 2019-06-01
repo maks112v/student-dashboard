@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import Welcome from "./Views/Welcome";
 import { getAutoFill, getUserById } from "./actions";
 import "./App.scss";
-import SignUp from "./Views/SignUp";
 import requireAuth from "./AuthRoutes";
 import Dashboard from "./Views/Dashboard";
 import Retro from "./Views/Retro";

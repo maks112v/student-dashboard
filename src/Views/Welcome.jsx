@@ -79,18 +79,6 @@ class Welcome extends React.Component{
                             >
                                 Let's Start
                             </Button>
-                            <Button
-                                type="primary"
-                                onClick={ () => this.props.history.push(
-                                    "/signup" ) }
-                                loading={ this.state.isLoading }
-                                shape="round"
-                                icon="lock"
-                                size="large"
-                                className={ "mg-left-lg" }
-                            >
-                                Sign Up
-                            </Button>
                         </Form>
                     </Col>
                     <Col xs={ 24 } md={ 12 }>

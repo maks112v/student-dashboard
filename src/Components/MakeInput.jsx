@@ -88,7 +88,7 @@ const MakeInput = ( {
         </Col> );
     }
     if( type === "suggest" && !isLoading ){
-        debugger;
+        
         return ( <Col xs={ 24 } style={ { margin: "20px 0" } }>
             <h3>
                 { required &&

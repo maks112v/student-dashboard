@@ -15,6 +15,7 @@ export const getUserById = id => dispatch => {
         .then( res => {
             if( res.exists ){
                 const data = res.data();
+                data.id = res.id;
                 cookieSave( "code", data.id );
                 dispatch( action( FETCH_USER_BY_ID_SUCCESS, data ) );
             }else{
