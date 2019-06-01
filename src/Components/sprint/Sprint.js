@@ -20,33 +20,42 @@ class Sprint extends Component{
     };
     
     render(){
-        debugger;
-        return ( <Row className={ "inline" }>
-            
-            <Col span={ 2 }>
-                <div>
-                    { this.state.open ? <div onClick={ () => {
+        return ( <>
+                <Row className={ "inline" }>
                     
-                    } }>
-                        <Icon onClick={ this.toggleOpen }
-                              type={ "caret-down" }/>
-                    </div> : <Icon onClick={ this.toggleOpen }
-                                   type={ "caret-right" }/> }
-                </div>
-            
-            </Col>
-            <Col span={ 22 }>
-                <h1>{ this.props.sprint.name }</h1>
-            </Col>
-            
-            { this.state.open && Object.values( this.props.lessons )
-                .filter( lesson => lesson.sprint === this.props.sprint.id )
-                .sort( ( a, b ) => a.order - b.order )
-                .map( lesson => {
-                    return <Lesson lesson={ lesson }/>;
-                } ) }
+                    <Col span={ 2 }>
+                        <div>
+                            { this.state.open ? <div onClick={ () => {
+                            
+                            } }>
+                                <Icon onClick={ this.toggleOpen }
+                                      type={ "caret-down" }/>
+                            </div> : <Icon onClick={ this.toggleOpen }
+                                           type={ "caret-right" }/> }
+                        </div>
+                    
+                    </Col>
+                    <Col span={ 22 }>
+                        <h1 className={ this.props.sprint.completed &&
+                        "complete" }>{ this.props.sprint.name }</h1>
+                    </Col>
+                </Row>
+                { this.state.open && <Row>
+                    <Col md={ 2 } offset={ 2 }><h3>Complete</h3></Col>
+                    <Col md={ 5 } offset={ 2 }><h3>Lesson</h3></Col>
+                    <Col md={ 3 }><h3>Retro Report</h3></Col>
+                    <Col md={ 4 }><h3>Training Kit</h3></Col>
+                    <Col md={ 4 }><h3>Project/s</h3></Col>
+                </Row> }
+                { this.state.open && Object.values( this.props.lessons )
+                    .filter( lesson => lesson.sprint === this.props.sprint.id )
+                    .sort( ( a, b ) => a.order - b.order )
+                    .map( lesson => {
+                        return <Lesson lesson={ lesson }/>;
+                    } ) }
+            </>
         
-        </Row> );
+        );
     }
 }
 
@@ -59,7 +68,7 @@ Sprint.propTypes = {
 };
 
 const mstp = state => ( {
-    lessons: state.autoFill.lessons,
+    lessons: state.autoFill.lessons, studentLessons: state.users.studentLessons,
 } );
 
 export default connect( mstp )( Sprint );

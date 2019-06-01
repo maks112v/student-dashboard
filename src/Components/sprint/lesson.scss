@@ -1,11 +1,38 @@
 .sprint__lesson {
   margin-left: 6rem;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid lightgrey;
 
   h3 {
-    border-bottom: 1px solid lightgrey;
+    padding: 2px 10px;
   }
+
+
 }
 
 .complete {
-  text-decoration: line-through;
+  background-color: #b3efb3bd;
+  border-radius: 5px;
+  padding: 0 8px;
+
 }
+
+.row-width {
+  max-width: 26rem;
+  display: flex;
+  align-items: baseline;
+  cursor: pointer;
+  margin-left: 6rem;
+}
+
+i.anticon.anticon-upload {
+  color: #04040c57;
+  transition: all .25s;
+  font-size: 1rem;
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.85);
+  }
+}
+

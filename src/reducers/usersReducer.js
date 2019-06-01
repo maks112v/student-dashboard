@@ -13,8 +13,8 @@ const initialState = {
     fetchStudentLessonsSuccess: false,
     fetchStudentLessonsFailed: false,
     isAuthenticated: false,
-    user: {},
-    studentLessons: {},
+    user: null,
+    studentLessons: null,
     error: "",
 };
 

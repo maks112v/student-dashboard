@@ -5,6 +5,7 @@ export default function( ComposedComponent, isAuthenticated ){
     class Authenticate extends React.Component{
         
         componentDidMount(){
+            
             this._checkAndRedirect();
         }
         
@@ -14,8 +15,9 @@ export default function( ComposedComponent, isAuthenticated ){
         }
         
         _checkAndRedirect(){
+            
             if( !isAuthenticated ){
-                this.props.history.push( "/verify" );
+                this.props.history.push( "/" );
             }
         }
         

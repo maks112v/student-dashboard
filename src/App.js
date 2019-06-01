@@ -51,13 +51,10 @@ class App extends React.Component{
     
     render(){
         return ( <Switch>
-            <Route exact path="/verify"
+            <Route exact path="/"
                    render={ props => <Welcome { ...props } /> }
             />
-            <Route path={ "/signup" }
-                   render={ props => <SignUp { ...props } /> }
-            />
-            <Route path="/"
+            <Route path="/dashboard"
                    component={ requireAuth( Dashboard,
                        this.props.isAuthenticated
                    ) }

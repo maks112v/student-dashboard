@@ -12,17 +12,20 @@ import Sprint from "../Components/sprint/Sprint";
 
 class Dashboard extends React.Component{
     state = {
-        joke: ""
+        joke: "", updatedSprints: false,
     };
     
     componentDidMount(){
         this.getJoke();
-        this.props.fetchSTudentLessons( this.props.user );
+        
+        if( this.props.user ){
+            this.props.fetchSTudentLessons( this.props.user );
+        }
     }
     
     logOut = () => {
         cookieDelete( "code" );
-        this.props.history.push( "/verify" );
+        this.props.history.push( "/" );
     };
     
     getJoke = () => {
@@ -30,6 +33,21 @@ class Dashboard extends React.Component{
             headers: { Accept: "application/json" }
         } ).then( joke => this.setState( { joke: joke.data.joke } ) ).catch();
     };
+    
+    componentDidUpdate( prevProps, prevState, snapshot ){
+        if( !this.state.updatedSprints && this.props.studentLessons &&
+            this.props.sprints ){
+            this.setState( { updatedSprints: true } );
+            Object.values( this.props.sprints ).forEach( sprint => {
+                if( this.props.studentLessons[ sprint.id ] &&
+                    this.props.studentLessons[ sprint.id ].completed ){
+                    sprint.completed = true;
+                }else{
+                    sprint.completed = false;
+                }
+            } );
+        }
+    }
     
     changeLessonCompleted = title => {
     
@@ -56,7 +74,9 @@ class Dashboard extends React.Component{
                               active>
                         <Card.Meta
                             avatar={ <Avatar src={ LambdaLogo }/> }
-                            title={ `Welcome ${ this.props.user.firstName } ${ this.props.user.lastName }` }
+                            title={ `Welcome ${ this.props.user &&
+                            this.props.user.firstName } ${ this.props.user &&
+                            this.props.user.lastName }` }
                             description={ `Here is a joke: ${ this.state.joke }` }
                         />
                     </Skeleton>
@@ -107,6 +127,7 @@ class Dashboard extends React.Component{
                         { this.props.sprints &&
                         Object.values( this.props.sprints )
                             .sort( ( a, b ) => a.week - b.week )
+                            .sort( ( a, b ) => a.completed - b.completed )
                             .map( sprint => {
                                 return <Sprint key={ sprint.id }
                                                sprint={ sprint }/>;
@@ -122,6 +143,7 @@ const mstp = state => ( {
     isLoading: state.autoFill.getLessonsInit,
     user: state.users.user,
     sprints: state.autoFill.sprints,
+    studentLessons: state.users.studentLessons,
 } );
 
 export default connect( mstp,

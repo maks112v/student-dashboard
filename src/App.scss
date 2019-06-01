@@ -13,3 +13,27 @@
     }
   }
 }
+
+.mg {
+  &-right {
+    &-sm {
+      margin-right: .5rem;
+    }
+
+    &-md {
+      margin-right: 1rem;
+    }
+
+    &-lg {
+      margin-right: 2rem;
+    }
+  }
+}
+
+.inline {
+  display: flex;
+}
+
+h1 {
+  padding: 0 10px;
+}
