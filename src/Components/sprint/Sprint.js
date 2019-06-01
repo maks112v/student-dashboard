@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Icon, Row, Col } from "antd";
+import { Icon, Row, Col, Popover } from "antd";
 import Lesson from "./Lesson";
 
 class Sprint extends Component{
@@ -19,7 +19,15 @@ class Sprint extends Component{
         } );
     };
     
+    openLink( link ){
+        window.open( link );
+    }
+    
     render(){
+        let sprintClassName = "pointer hover-blue";
+        if( this.props.sprint.completed ){
+            sprintClassName += " complete";
+        }
         return ( <>
                 <Row className={ "inline" }>
                     
@@ -31,28 +39,30 @@ class Sprint extends Component{
                                 <Icon onClick={ this.toggleOpen }
                                       type={ "caret-down" }/>
                             </div> : <Icon onClick={ this.toggleOpen }
-                                           type={ "caret-right" }/> }
+                                           type={ "caret-right" }
+                                           style={ { fontSize: "24px" } }/> }
                         </div>
                     
                     </Col>
                     <Col span={ 22 }>
-                        <h1 className={ this.props.sprint.completed &&
-                        "complete" }>{ this.props.sprint.name }</h1>
+                        <Popover content={ `${ this.props.sprint.name } TK` }
+                                 placement={ "leftBottom" }>
+                            <h1 className={ sprintClassName }
+                                onClick={ () => this.openLink( this.props.sprint.tk ) }>{ this.props.sprint.name }
+                            </h1>
+                        </Popover>
+                    
                     </Col>
                 </Row>
-                { this.state.open && <Row>
-                    <Col md={ 2 } offset={ 2 }><h3>Complete</h3></Col>
-                    <Col md={ 5 } offset={ 2 }><h3>Lesson</h3></Col>
-                    <Col md={ 3 }><h3>Retro Report</h3></Col>
-                    <Col md={ 4 }><h3>Training Kit</h3></Col>
-                    <Col md={ 4 }><h3>Project/s</h3></Col>
-                </Row> }
                 { this.state.open && Object.values( this.props.lessons )
                     .filter( lesson => lesson.sprint === this.props.sprint.id )
                     .sort( ( a, b ) => a.order - b.order )
                     .map( lesson => {
                         return <Lesson lesson={ lesson }/>;
                     } ) }
+                { this.state.open && <Row>
+                
+                </Row> }
             </>
         
         );

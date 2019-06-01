@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "./lesson.scss";
 import { connect } from "react-redux";
-import { Row, Checkbox, Icon, Col } from "antd";
+import { Row, Checkbox, Icon, Col, Popover } from "antd";
 
 class Lesson extends Component{
     
@@ -10,9 +10,13 @@ class Lesson extends Component{
         
         let url = `https://airtable.com/shr8ZYuNjevMLRsxI?prefill_Student=${ this.props.user.firstName.trim() }+${ this.props.user.lastName.trim() }&prefill_Module=${ encodeURI(
             this.props.lesson.name ) }`;
-        window.open( url );
+        this.openLink( url );
         
     };
+    
+    openLink( link ){
+        window.open( link );
+    }
     
     render(){
         const className = this.props.studentLessons[ this.props.lesson.id ] &&
@@ -24,31 +28,42 @@ class Lesson extends Component{
                 <h3 className={ `${ className } inline` }>
                     <Checkbox className={ "mg-right-lg" }
                               defaultChecked={ className === "complete" }
-                              disabled/>
-                    { this.props.lesson.name }
+                              disabled
+                    />
+                    <Popover placement="rightBottom"
+                             content={ <p>{ this.props.lesson.name } Training
+                                 Kit</p> }
+                    >
+                        <div className={ "color-blue" }
+                             onClick={ () => this.openLink( this.props.lesson.tk ) }>{ this.props.lesson.name }</div>
+                    </Popover>
                 </h3>
             </Col>
             <Col md={ 5 }>
-                <div className={ "mg-left-md" }
-                     onClick={ this.createLink }><Icon type="link"/>
-                </div>
-            </Col>{ this.props.lesson.tk && <Col md={ 5 }>
-            <div className={ "mg-left-md" }><a
-                href={ this.props.lesson.tk }>TK</a>
-            </div>
-        </Col> }
+                <Popover
+                    content={ <p>{ this.props.lesson.name } Retrospective.</p> }
+                    placement="leftBottom">
+                    <Icon type="form" onClick={ () => this.createLink() }
+                          className={ "font-18" }/>
+                </Popover>
+            </Col>
             <Col md={ 10 }>
-                <div className={ "mg-left-md inline" }>
+                <div className={ " mg-left-md inline" }>
                     { this.props.lesson.projects &&
                     this.props.lesson.projects.map( ( project, index ) => {
-                        let className = "inline";
+                        let className = " inline";
                         if( index !== 0 ){
                             className += " mg-left-md";
                         }
-                        return <a href={ project }
-                                  className={ className }>
-                            { `Project ${ index + 1 }` }
-                        </a>;
+                        return <Popover content={ <p>{ project }</p> }
+                                        placement={ "rightBottom" }>
+                            <div onClick={ () => this.openLink( project ) }
+                                 className={ `${ className } color-blue` }>
+                                
+                                { `Project ${ index + 1 }` }
+                            
+                            </div>
+                        </Popover>;
                     } ) }
                 </div>
             </Col>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Row, Col, Card, Icon, Skeleton, Avatar } from "antd";
+import { Layout, Row, Col, Card, Icon, Skeleton, Avatar, Popover } from "antd";
 import { cookieDelete } from "../actions/cookie";
 import { connect } from "react-redux";
 import LambdaLogo from "../assets/logo.png";
@@ -50,7 +50,7 @@ class Dashboard extends React.Component{
     }
     
     changeLessonCompleted = title => {
-    
+        
     };
     
     render(){
@@ -61,13 +61,24 @@ class Dashboard extends React.Component{
                 <Card
                     style={ { maxWidth: "800px", margin: "20px auto" } }
                     actions={ [
-                        <Icon type="reload" onClick={ this.getJoke }/>, <Icon
+                        
+                        <Popover content={ <p>Reload Joke</p> }>
+                            <Icon type="reload"
+                                  onClick={ this.getJoke }
+                                  style={ { fontSize: "24px" } }
+                            />
+                        </Popover>,
+                        <Popover content={ <p>Go To Your Github</p> }><Icon
                             type="github"
+                            style={ { fontSize: "24px" } }
                             onClick={ () => {
                                 
                                 window.open( `https://github.com/${ this.props.user.github }` );
                             } }
-                        />, <Icon type="logout" onClick={ this.logOut }/>
+                        /></Popover>, <Popover content={ <p>Logout</p> }>
+                            <Icon type="logout" style={ { fontSize: "24px" } }
+                                  onClick={ this.logOut }/>
+                        </Popover>
                     ] }
                 >
                     <Skeleton loading={ this.props.isLoading } avatar

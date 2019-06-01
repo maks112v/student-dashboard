@@ -37,3 +37,31 @@
 h1 {
   padding: 0 10px;
 }
+
+.color {
+  &-blue {
+    color: #1890ff;
+  }
+}
+
+.font {
+  &-18 {
+    font-size: 18px;
+  }
+
+  &-32 {
+    font-size: 32px;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.hover-blue {
+  transition: color .5s;
+}
+
+.hover-blue:hover {
+  color: #1890ff
+}
