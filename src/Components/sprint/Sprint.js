@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Icon, Row, Col, Popover } from "antd";
+import { Icon, Row, Col, Popover, Table, Button, Divider } from "antd";
 import Lesson from "./Lesson";
 
 class Sprint extends Component{
@@ -34,13 +34,21 @@ class Sprint extends Component{
                     <Col span={ 2 }>
                         <div>
                             { this.state.open ? <div onClick={ () => {
-                            
+                                
                             } }>
                                 <Icon onClick={ this.toggleOpen }
-                                      type={ "caret-down" }/>
+                                      type={ "caret-down" }
+                                      className={ "hover-blue" }
+                                      style={ {
+                                          fontSize: "24px",
+                                      } }/>
                             </div> : <Icon onClick={ this.toggleOpen }
                                            type={ "caret-right" }
-                                           style={ { fontSize: "24px" } }/> }
+                                           className={ "hover-blue" +
+                                           " color-lightgrey" }
+                                           style={ {
+                                               fontSize: "24px",
+                                           } }/> }
                         </div>
                     
                     </Col>

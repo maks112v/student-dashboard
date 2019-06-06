@@ -65,3 +65,9 @@ h1 {
 .hover-blue:hover {
   color: #1890ff
 }
+
+.color {
+  &-lightgrey {
+    color: rgba(0, 0, 0, 0.45);
+  }
+}

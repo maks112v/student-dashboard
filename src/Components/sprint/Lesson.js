@@ -34,7 +34,7 @@ class Lesson extends Component{
                              content={ <p>{ this.props.lesson.name } Training
                                  Kit</p> }
                     >
-                        <div className={ "color-blue" }
+                        <div className={ "color-lightgrey hover-blue" }
                              onClick={ () => this.openLink( this.props.lesson.tk ) }>{ this.props.lesson.name }</div>
                     </Popover>
                 </h3>
@@ -44,10 +44,10 @@ class Lesson extends Component{
                     content={ <p>{ this.props.lesson.name } Retrospective.</p> }
                     placement="leftBottom">
                     <Icon type="form" onClick={ () => this.createLink() }
-                          className={ "font-18" }/>
+                          className={ "font-18 hover-blue" }/>
                 </Popover>
             </Col>
-            <Col md={ 10 }>
+            <Col md={ 15 }>
                 <div className={ " mg-left-md inline" }>
                     { this.props.lesson.projects &&
                     this.props.lesson.projects.map( ( project, index ) => {
@@ -58,9 +58,9 @@ class Lesson extends Component{
                         return <Popover content={ <p>{ project }</p> }
                                         placement={ "rightBottom" }>
                             <div onClick={ () => this.openLink( project ) }
-                                 className={ `${ className } color-blue` }>
+                                 className={ `${ className } hover-blue` }>
                                 
-                                { `Project ${ index + 1 }` }
+                                <p>{ `Project ${ index + 1 }` }</p>
                             
                             </div>
                         </Popover>;

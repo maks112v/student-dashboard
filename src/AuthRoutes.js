@@ -1,20 +1,19 @@
 import React from "react";
-import { connect } from "react-redux";
 
 export default function( ComposedComponent, isAuthenticated ){
     class Authenticate extends React.Component{
         
         componentDidMount(){
             
-            this._checkAndRedirect();
+            this.checkAndRedirect();
         }
         
         componentDidUpdate(){
             
-            this._checkAndRedirect();
+            this.checkAndRedirect();
         }
         
-        _checkAndRedirect(){
+        checkAndRedirect(){
             
             if( !isAuthenticated ){
                 this.props.history.push( "/" );
