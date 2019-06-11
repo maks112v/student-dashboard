@@ -1,12 +1,12 @@
 import React from "react";
 import { Layout, Row, Col, Card, Icon, Skeleton, Avatar, Popover } from "antd";
-import { cookieDelete } from "../actions/cookie";
 import { connect } from "react-redux";
 import LambdaLogo from "../assets/logo.png";
-import { fetchStudentLessons } from "../actions/index";
+import {
+    fetchStudentLessons, logout, getAutoFillSprints,
+} from "../actions/index";
 import DailyImage from "../assets/daily.jpg";
 import SprintImage from "../assets/sprint.jpg";
-
 import axios from "axios";
 import Sprint from "../Components/sprint/Sprint";
 
@@ -16,15 +16,22 @@ class Dashboard extends React.Component{
     };
     
     componentDidMount(){
+        
         this.getJoke();
         
         if( this.props.user ){
-            this.props.fetchSTudentLessons( this.props.user );
+            
+            if( !this.props.gettingSprints &&
+                !this.props.gettingSprintsSuccess ){
+                this.props.getAutoFillSprints( this.props.user );
+            }
+            this.props.fetchStudentLessons( this.props.user );
         }
     }
     
     logOut = () => {
-        cookieDelete( "code" );
+        
+        this.props.logout();
         this.props.history.push( "/" );
     };
     
@@ -35,6 +42,7 @@ class Dashboard extends React.Component{
     };
     
     componentDidUpdate( prevProps, prevState, snapshot ){
+        
         if( !this.state.updatedSprints && this.props.studentLessons &&
             this.props.sprints ){
             this.setState( { updatedSprints: true } );
@@ -77,7 +85,7 @@ class Dashboard extends React.Component{
                             } }
                         /></Popover>, <Popover content={ <p>Logout</p> }>
                             <Icon type="logout" style={ { fontSize: "24px" } }
-                                  onClick={ this.logOut }/>
+                                  onClick={ () => this.logOut() }/>
                         </Popover>
                     ] }
                 >
@@ -155,9 +163,11 @@ const mstp = state => ( {
     user: state.users.user,
     sprints: state.autoFill.sprints,
     studentLessons: state.users.studentLessons,
+    gettingSprints: state.autoFill.getSprintsInit,
+    gettingSprintsSuccess: state.autoFill.getSprintsSuccess,
 } );
 
 export default connect( mstp,
-    { fetchSTudentLessons: fetchStudentLessons }
+    { fetchStudentLessons, logout, getAutoFillSprints }
 )(
     Dashboard );

@@ -3,11 +3,12 @@ import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { cookieGet } from "./actions/cookie";
 import { connect } from "react-redux";
 import Welcome from "./Views/Welcome";
-import { getAutoFill, getUserById } from "./actions";
+import { getUserById, checkAuth } from "./actions";
 import "./App.scss";
 import requireAuth from "./AuthRoutes";
 import Dashboard from "./Views/Dashboard";
 import Retro from "./Views/Retro";
+import firebase from "./firebase";
 
 const Protected = ( { component: Component, ...rest } ) => ( <Route
     { ...rest }
@@ -23,11 +24,12 @@ class App extends React.Component{
     
     componentDidMount(){
         
-        if( cookieGet( "code" ) ){
-            this.props.getUserById( cookieGet( "code" ) );
-        }
-        this.props.getAutoFill();
-        
+        this.unregisterAuthObserver = firebase.auth()
+            .onAuthStateChanged( () => this.props.checkAuth() );
+    }
+    
+    componentWillUnmount(){
+        this.unregisterAuthObserver();
     }
     
     componentWillUpdate( nextProps, nextState, nextContext ){
@@ -39,6 +41,7 @@ class App extends React.Component{
         }
         
         if( nextProps.isAuthenticated && !nextState.redirected ){
+            
             this.setState( { redirected: true } );
             this.props.history.push( "/dashboard" );
         }
@@ -68,29 +71,12 @@ class App extends React.Component{
 }
 
 const mstp = state => ( {
-    instructors: state.autoFill.instructors,
-    tas: state.autoFill.tas,
-    sprints: state.autoFill.sprints,
-    lessons: state.autoFill.lessons,
-    getInstructorsInit: state.autoFill.getInstructorsInit,
-    getInstructorsSuccess: state.autoFill.getInstructorsSuccess,
-    getInstructorsFailed: state.getInstructorsFailed,
-    getLessonsInit: state.autoFill.getLessonsInit,
-    getLessonsSuccess: state.autoFill.getLessonsSuccess,
-    getLessonsFailed: state.autoFill.getLessonsFailed,
-    getSprintsInit: state.autoFill.getSprintsInit,
-    getSprintsSuccess: state.autoFill.getSprintsSuccess,
-    getSprintsFailed: state.autoFill.getSprintsFailed,
-    getTAsInit: state.autoFill.getTAsInit,
-    getTAsSuccess: state.autoFill.getTAsSuccess,
     getTAsFailed: state.autoFill.getTAsFailed,
-    error: state.autoFill.error,
-    fetchUserInit: state.users.fetchUserInit,
     isAuthenticated: state.users.isAuthenticated,
-    
+    getSprintsFailed: state.autoFill.getSprintsFailed,
+    getLessonsFailed: state.autoFill.getLessonsFailed,
+    getInstructorsFailed: state.autoFill.getInstructorsFailed,
+    fetchUserInit: state.autoFill.fetchUserInit,
 } );
 
-export default withRouter( connect( mstp,
-    { getAutoFill, getUserById }
-)(
-    App ) );
+export default withRouter( connect( mstp, { getUserById, checkAuth } )( App ) );

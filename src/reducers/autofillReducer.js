@@ -4,7 +4,9 @@ import {
     GET_AUTOFILL_LESSONS_INIT, GET_AUTOFILL_LESSONS_SUCCESS,
     GET_AUTOFILL_SPRINTS_FAIL, GET_AUTOFILL_SPRINTS_INIT,
     GET_AUTOFILL_SPRINTS_SUCCESS, GET_AUTOFILL_TAS_FAIL, GET_AUTOFILL_TAS_INIT,
-    GET_AUTOFILL_TAS_SUCCESS
+    GET_AUTOFILL_TAS_SUCCESS, GET_AUTOFILL_COURSES_FAIL,
+    GET_AUTOFILL_COURSES_INIT, GET_AUTOFILL_COURSES_SUCCESS,
+    GET_AUTOFILL_PMS_FAIL, GET_AUTOFILL_PMS_INIT, GET_AUTOFILL_PMS_SUCCESS,
 } from "../actions";
 
 const initialState = {
@@ -12,6 +14,10 @@ const initialState = {
     tas: null,
     sprints: null,
     lessons: null,
+    pms: null,
+    courses: null,
+    gettingPMs: false,
+    gettingCourses: false,
     getInstructorsInit: false,
     getInstructorsSuccess: false,
     getInstructorsFailed: false,
@@ -137,6 +143,47 @@ export const autofillReducer = ( state = initialState, action ) => {
                 getTAsFailed: true,
                 tas: {},
                 error: action.payload,
+            };
+    
+        //GET AUTOFILL COURSES ----------------------------------------------
+    
+        case GET_AUTOFILL_COURSES_INIT:
+            return {
+                ...state,
+                gettingCourses: true,
+            };
+        case GET_AUTOFILL_COURSES_SUCCESS:
+            return {
+                ...state,
+                gettingCourses: false,
+                courses: action.payload,
+            };
+        case GET_AUTOFILL_COURSES_FAIL:
+            return {
+                ...state,
+                gettingCourses: false,
+                courses: null,
+                error: action.payload,
+            };
+    
+        //GET AUTOFILL PMS ----------------------------------------------
+    
+        case GET_AUTOFILL_PMS_INIT:
+            return {
+                ...state,
+                gettingPMs: true,
+            };
+        case GET_AUTOFILL_PMS_SUCCESS:
+            return {
+                ...state,
+                gettingPMs: false,
+                pms: action.payload,
+            };
+        case GET_AUTOFILL_PMS_FAIL:
+            return {
+                ...state,
+                gettingPMs: false,
+                pms: null, error: action.payload,
             };
         
         default:

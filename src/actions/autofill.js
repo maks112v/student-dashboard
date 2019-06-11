@@ -1,10 +1,12 @@
 import { store } from "../firebase";
 import { action } from "./action";
 
-export const getAutoFill = () => dispatch => {
+export const getAutoFillInit = () => dispatch => {
+    
     getAutoFillInstructors()( dispatch );
     getAutoFillTas()( dispatch );
-    getAutoFillSprints()( dispatch );
+    getAutoFillCourses()( dispatch );
+    getAutoFillPMS()( dispatch );
 };
 
 export const GET_AUTOFILL_INSTRUCTORS_INIT = "GET_AUTOFILL_INSTRUCTORS_INIT";
@@ -42,17 +44,28 @@ export const GET_AUTOFILL_SPRINTS_INIT = "GET_AUTOFILL_SPRINTS_INIT";
 export const GET_AUTOFILL_SPRINTS_SUCCESS = "GET_AUTOFILL_SPRINTS_SUCCESS";
 export const GET_AUTOFILL_SPRINTS_FAIL = "GET_AUTOFILL_SPRINTS_FAIL";
 
-export const getAutoFillSprints = () => dispatch => {
+export const getAutoFillSprints = ( user ) => dispatch => {
+    
+    if( !user.course ){
+        return;
+    }
     dispatch( action( GET_AUTOFILL_SPRINTS_INIT ) );
-    store.collection( "autoFill" ).doc( "web" ).collection( "sprints" )
+    store.collection( "autoFill" )
+        .doc( "web" )
+        .collection( "courses" )
+        .doc( user.course )
+        .collection( "sprints" )
         .get()
         .then( res => {
+            
             if( !res.empty ){
                 const sprints = {};
                 res.docs.forEach( sprint => {
                     const data = sprint.data();
                     data.id = sprint.id;
+                    data.course = user.course;
                     sprints[ data.id ] = data;
+                    
                     getAutoFillLessonsForSprint( data )( dispatch );
                 } );
                 
@@ -63,9 +76,10 @@ export const getAutoFillSprints = () => dispatch => {
                 ) );
             }
         } )
-        .catch( err => dispatch( action( GET_AUTOFILL_SPRINTS_FAIL,
-            err.message
-        ) ) );
+        .catch( err => {
+            
+            dispatch( action( GET_AUTOFILL_SPRINTS_FAIL, err.message ) );
+        } );
 };
 
 export const GET_AUTOFILL_LESSONS_INIT = "GET_AUTOFILL_LESSONS_INIT";
@@ -73,11 +87,18 @@ export const GET_AUTOFILL_LESSONS_SUCCESS = "GET_AUTOFILL_LESSONS_SUCCESS";
 export const GET_AUTOFILL_LESSONS_FAIL = "GET_AUTOFILL_LESSONS_FAIL";
 
 export const getAutoFillLessonsForSprint = sprint => dispatch => {
+    
     dispatch( action( GET_AUTOFILL_LESSONS_INIT ) );
-    store.collection( "autoFill" ).doc( "web" ).collection( "sprints" )
-        .doc( sprint.id ).collection( "lessons" )
+    store.collection( "autoFill" )
+        .doc( "web" )
+        .collection( "courses" )
+        .doc( sprint.course )
+        .collection( "sprints" )
+        .doc( sprint.id )
+        .collection( "lessons" )
         .get()
         .then( res => {
+            debugger;
             if( !res.empty ){
                 const lessons = {};
                 res.docs.forEach( lesson => {
@@ -93,9 +114,10 @@ export const getAutoFillLessonsForSprint = sprint => dispatch => {
                 ) );
             }
         } )
-        .catch( err => dispatch( action( GET_AUTOFILL_LESSONS_FAIL,
-            err.message
-        ) ) );
+        .catch( err => {
+            debugger;
+            dispatch( action( GET_AUTOFILL_LESSONS_FAIL, err.message ) );
+        } );
 };
 
 export const GET_AUTOFILL_TAS_INIT = "GET_AUTOFILL_TAS_INIT";
@@ -125,3 +147,65 @@ export const getAutoFillTas = () => dispatch => {
         .catch(
             err => dispatch( action( GET_AUTOFILL_TAS_FAIL, err.message ) ) );
 };
+
+export const GET_AUTOFILL_PMS_INIT = "GET_AUTOFILL_PMS_INIT";
+export const GET_AUTOFILL_PMS_SUCCESS = "GET_AUTOFILL_PMS_SUCCESS";
+export const GET_AUTOFILL_PMS_FAIL = "GET_AUTOFILL_PMS_FAIL";
+
+export const getAutoFillPMS = () => dispatch => {
+    dispatch( action( GET_AUTOFILL_PMS_INIT ) );
+    store.collection( "users" )
+        .get()
+        .then( res => {
+            if( !res.empty ){
+                const pms = {};
+                res.docs.forEach( pm => {
+                    const data = pm.data();
+                    data.id = pm.id;
+                    pms[ data.id ] = data;
+                } );
+                
+                dispatch( action( GET_AUTOFILL_PMS_SUCCESS, pms ) );
+            }else{
+                console.log( "Error: Unable to get PM's" );
+                dispatch( action( GET_AUTOFILL_PMS_FAIL,
+                    `Error, unable to get PMs.`
+                ) );
+            }
+        } )
+        .catch(
+            err => dispatch( action( GET_AUTOFILL_PMS_FAIL, err.message ) ) );
+};
+
+export const GET_AUTOFILL_COURSES_INIT = "GET_AUTOFILL_COURSES_INIT";
+export const GET_AUTOFILL_COURSES_SUCCESS = "GET_AUTOFILL_COURSES_SUCCESS";
+export const GET_AUTOFILL_COURSES_FAIL = "GET_AUTOFILL_COURSES_FAIL";
+
+export const getAutoFillCourses = () => dispatch => {
+    
+    dispatch( action( GET_AUTOFILL_COURSES_INIT ) );
+    store.collection( "autoFill" ).doc( "web" ).collection( "courses" )
+        .get()
+        .then( res => {
+            if( !res.empty ){
+                const courses = {};
+                res.docs.forEach( course => {
+                    const data = course.data();
+                    data.id = course.id;
+                    courses[ data.id ] = data;
+                } );
+                
+                dispatch( action( GET_AUTOFILL_COURSES_SUCCESS, courses ) );
+            }else{
+                console.log( "Error: Unable to get courses" );
+                dispatch( action( GET_AUTOFILL_COURSES_FAIL,
+                    `Error, unable to get courses.`
+                ) );
+            }
+        } )
+        .catch( err => {
+            
+            dispatch( action( GET_AUTOFILL_COURSES_FAIL, err.message ) );
+        } );
+};
+

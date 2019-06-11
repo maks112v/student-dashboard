@@ -58,7 +58,7 @@ const MakeInput = ( {
                     value={ value }
                     onChange={ onChange }
                     name={ name }
-                    onBlur={ () => validate( "url" ) }
+                    onBlur={ () => validate( type ) }
                 />
             </Form.Item>
         </Col> );
